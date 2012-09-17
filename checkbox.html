@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+	<head>
+		
+		<!-- META -->
+		<meta charset="utf-8">
+		
+		<!-- Force latest IE rendering engine (even in intranet) & Chrome Frame -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		
+		<!-- tell mobile browsers to scale -->
+		<meta name="viewport" content="width=device-width">
+		
+		<title>Checkbox Replace</title>
+		
+		<meta name="description" content="">
+		
+		<!-- CSS: implied media="all" -->
+		<link rel="stylesheet" href="//dl.dropbox.com/u/6951443/hosted-assets/css/normalize.css">
+		<style>
+			body {
+				margin: 100px;
+			}
+			
+			.replace-js {
+				background: url('form-states.png') no-repeat 0 50%;
+				cursor: pointer;
+				display: inline-block;
+				margin-bottom: 10px;
+				min-height: 16px;
+				padding: 0 0 0 24px;
+				position: relative;
+			}
+			.replace-js input[type='checkbox'] {
+				left: -9999px;
+				position: absolute;
+				top: 0;
+			}
+			
+			.replace-focus {
+				background-position: 0 50%;
+			}
+			.replace-checked {
+				background-position: -800px 50%;
+			}
+			.replace-checked.replace-focus {
+				background-position: -800px 50%;
+			}
+		</style>
+		
+		<!-- All JavaScript at the bottom, except for Modernizr / Respond. -->
+		<script src="//dl.dropbox.com/u/6951443/hosted-assets/js/modernizr.js"></script>
+	</head>
+	<body>
+	
+		<label class="replace">
+			<input type="checkbox" name="mycheckbox1" value="true">
+			Checkbox 1
+		</label><br>
+		<label class="replace">
+			<input type="checkbox" name="mycheckbox2" value="true">
+			Checkbox 2
+		</label>
+		
+		<br><br>
+		
+		<label class="replace">
+			<input type="radio" name="myradio" value="true">
+			Radio: true
+		</label><br>
+		<label class="replace">
+			<input type="radio" name="myradio" value="false">
+			Radio: false
+		</label>
+	
+		<!-- Javascript -->
+		<script>
+			var APP = APP || {};
+			
+			// checkbox replace
+			APP.checkboxes = {
+				
+				init: function() {
+					
+					// set some variables
+					var replaceState = 'replace';
+					var initState = 'replace-js';
+					var checkedState = 'replace-checked';
+					var focusState = 'replace-focus';
+					
+					// get all the checkboxes
+					var checkboxes = document.getElementsByTagName('input');
+					
+					// loop through the checkboxes
+					for (var i = 0; i < checkboxes.length; i++) {
+						
+						var elm = checkboxes[i];
+						var parent = elm.parentNode;
+						
+						if (elm.getAttribute('type') === 'checkbox' && APP.hasClass(parent,replaceState)) {
+							
+							// add replace-js class
+							APP.addClass(parent,initState);
+							
+							// add class if pre-checked
+							if (elm.checked) {
+								APP.addClass(parent,checkedState);
+							}
+							
+							// bind focus event
+							elm.onfocus = function() {
+								APP.addClass(this.parentNode,focusState);
+							};
+							
+							// bind blur event
+							elm.onblur = function() {
+								APP.removeClass(this.parentNode,focusState);
+							};
+							
+							// bind click event
+							elm.onclick = function() {
+								
+								if (this.checked) {
+									APP.addClass(this.parentNode,checkedState);
+								} else {
+									APP.removeClass(this.parentNode,checkedState);
+								}
+								
+							};
+							
+						}
+						
+					}
+					
+				}
+				
+			};
+			
+			
+			// radio button replace
+			APP.radiobuttons = {
+				
+				init: function() {
+					
+					// set some variables
+					var replaceState = 'replace';
+					var initState = 'replace-js';
+					var checkedState = 'replace-checked';
+					var focusState = 'replace-focus';
+					
+					// get all the checkboxes
+					var radiobuttons = document.getElementsByTagName('input');
+					
+					// loop through the checkboxes
+					for (var i = 0; i < radiobuttons.length; i++) {
+						
+						var elm = radiobuttons[i];
+						var parent = elm.parentNode;
+						
+						if (elm.getAttribute('type') === 'radio' && APP.hasClass(parent,replaceState)) {
+							
+							// add replace-js class
+							APP.addClass(parent,initState);
+							
+							// add class if pre-checked
+							if (elm.checked) {
+								APP.addClass(parent,checkedState);
+							}
+							
+							
+							// bind focus event
+							elm.onfocus = function() {
+								APP.addClass(this.parentNode,focusState);
+							};
+							
+							// bind blur event
+							elm.onblur = function() {
+								APP.removeClass(this.parentNode,focusState);
+							};
+							/*
+							// bind click event
+							elm.onclick = function() {
+								
+								if (this.checked) {
+									APP.addClass(this.parentNode,checkedState);
+								} else {
+									APP.removeClass(this.parentNode,checkedState);
+								}
+								
+							};*/
+							
+						}
+						
+					}
+					
+				}
+				
+			};
+			
+			
+			// utilities
+			APP.hasClass = function(ele, cls) {
+				return ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+			};
+			APP.addClass = function(ele, cls) {
+				if (!this.hasClass(ele, cls)) ele.className += " " + cls;
+			};
+			APP.removeClass = function(ele, cls) {
+				if (APP.hasClass(ele, cls)) {
+				var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+					ele.className = ele.className.replace(reg, ' ');
+				}
+			};
+			
+			
+			// run this thing!
+			APP.checkboxes.init();
+			APP.radiobuttons.init();
+			
+			
+			// make console.log safe to use
+			window.console||(console={log:function(){}});
+		</script>
+	
+	</body>
+</html>
