@@ -1,0 +1,28 @@
+body {
+	margin: 100px;
+}
+
+.replace-js {
+	background: url('../images/form-states.png') no-repeat 0 50%;
+	cursor: pointer;
+	display: inline-block;
+	margin-bottom: 10px;
+	min-height: 16px;
+	padding: 0 0 0 24px;
+	position: relative;
+}
+.replace-js input[type='checkbox'] {
+	left: -9999px;
+	position: absolute;
+	top: 0;
+}
+
+.replace-focus {
+	background-position: 0 50%;
+}
+.replace-checked {
+	background-position: -800px 50%;
+}
+.replace-checked.replace-focus {
+	background-position: -800px 50%;
+}
